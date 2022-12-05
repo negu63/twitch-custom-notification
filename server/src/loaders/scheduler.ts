@@ -1,10 +1,13 @@
 import fetch from "node-fetch";
 import schedule from "node-schedule";
+import admin from "firebase-admin";
 import { Stream } from "../types/stream";
 import { TopicMessage } from "../types/message";
 import { STREAMS_URL } from "../constants/stream";
 import { getCurrentTime } from "./../utils/getCurrentTime";
+import { app } from "./../utils/firebase";
 
+const isDryRun = false;
 let prevStreamsId: String[] = [];
 
 const getLiveStreams = async () => {
@@ -57,7 +60,12 @@ const generateMessage = (stream: Stream): TopicMessage => {
   };
 };
 
-  // TODO: send push notification logic
+const sendTopicPushNotification = async (message: TopicMessage) => {
+  admin
+    .messaging(app)
+    .send(message, isDryRun)
+    .then((res) => console.log(res))
+    .catch((err) => console.error(err));
 };
 
 const job = async () => {
@@ -68,6 +76,7 @@ const job = async () => {
 
   const onStreams = getOnStreams(liveStreamsData, onStreamsId);
   const messages = onStreams.map((stream) => generateMessage(stream));
+  messages.forEach((message) => sendTopicPushNotification(message));
 };
 
 export default () => {
