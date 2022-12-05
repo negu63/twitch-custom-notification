@@ -34,7 +34,9 @@ const getOnStreamsId = (data: any[]) => {
   return onStreamsId;
 };
 
-const sendPushNotification = async (onStreams: String[]) => {
+const getOnStreams = (data: any[], onStreamsId: String[]) => {
+  return data.filter((stream) => onStreamsId.includes(stream.user_login));
+};
   // TODO: send push notification logic
 };
 
@@ -44,6 +46,7 @@ const job = async () => {
 
   if (!onStreamsId.length) return;
 
+  const onStreams = getOnStreams(liveStreamsData, onStreamsId);
 };
 
 export default () => {
