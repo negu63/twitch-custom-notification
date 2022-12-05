@@ -1,13 +1,15 @@
 import mongoose from "mongoose";
+import { getCurrentTime } from "../utils/getCurrentTime";
 
 const Token = new mongoose.Schema({
   token: {
     type: String,
     required: true,
   },
-  createdAt: {
-    type: String,
+  updatedAt: {
+    type: Date,
     required: true,
+    default: getCurrentTime(),
   },
 });
 
