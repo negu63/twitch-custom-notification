@@ -81,8 +81,12 @@ const job = async () => {
 };
 
 export default () => {
-  schedule.scheduleJob(
-    `*/${GET_STREAMS_INTERVAL_SECOND} * * * * *`,
-    async () => await job()
-  );
+  try {
+    schedule.scheduleJob(
+      `*/${GET_STREAMS_INTERVAL_SECOND} * * * * *`,
+      async () => await job()
+    );
+  } catch (err) {
+    console.error(err);
+  }
 };
