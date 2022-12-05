@@ -1,0 +1,7 @@
+{
+  "name": "bangonan-server",
+  "version": "0.0.1",
+  "description": "Server of bangonan",
+  "main": "src/app.ts",
+  "license": "MIT"
+}
