@@ -1,14 +1,14 @@
 export interface TopicMessage {
   webpush: {
     notification: {
-      title: String;
-      body: String;
+      title: string;
+      body: string;
       // icon:
       // badge:
     };
+    fcmOptions: {
+      link: string;
+    };
   };
-  fcmOptions: {
-    link: String;
-  };
-  topic: String;
+  topic: string;
 }
