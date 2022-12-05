@@ -40,7 +40,7 @@ const getOnStreams = (data: Stream[], onStreamsId: String[]) => {
   return data.filter((stream) => onStreamsId.includes(stream.user_login));
 };
 
-const generateMessage = (stream: Stream) : TopicMessage => {
+const generateMessage = (stream: Stream): TopicMessage => {
   return {
     webpush: {
       notification: {
@@ -49,9 +49,9 @@ const generateMessage = (stream: Stream) : TopicMessage => {
         // icon:
         // badge:
       },
-    },
-    fcmOptions: {
-      link: `twitch://stream/${stream.user_login}`,
+      fcmOptions: {
+        link: `twitch://stream/${stream.user_login}`,
+      },
     },
     topic: stream.user_login,
   };
