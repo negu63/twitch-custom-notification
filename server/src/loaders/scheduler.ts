@@ -4,6 +4,7 @@ import admin from "firebase-admin";
 import { Stream } from "../types/stream";
 import { TopicMessage } from "../types/message";
 import { STREAMS_URL } from "../constants/stream";
+import { GET_STREAMS_INTERVAL_SECOND } from "../constants/interval";
 import { getCurrentTime } from "./../utils/getCurrentTime";
 import { app } from "./../utils/firebase";
 
@@ -80,7 +81,8 @@ const job = async () => {
 };
 
 export default () => {
-  schedule.scheduleJob("*/5 * * * * *", async () => {
-    await job();
-  });
+  schedule.scheduleJob(
+    `*/${GET_STREAMS_INTERVAL_SECOND} * * * * *`,
+    async () => await job()
+  );
 };
