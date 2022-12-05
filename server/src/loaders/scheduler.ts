@@ -3,6 +3,8 @@ import fetch from "node-fetch";
 import schedule from "node-schedule";
 import { STREAMS_URL } from "../constants/stream";
 
+let prevStreamsId: String[] = [];
+
 const getLiveStreams = async () => {
   const response = await fetch(STREAMS_URL, {
     method: "GET",
@@ -19,22 +21,29 @@ const getLiveStreams = async () => {
   return data.data;
 };
 
-const getStreamsName = (data: any) => {
-  return data.map((stream: any) => stream.user_name);
+const getCurStreamsId = (data: any[]): String[] => {
+  return data.map((stream) => stream.user_login);
 };
 
-const sendPushNotification = async () => {
+const getOnStreams = (data: any[]) => {
+  const curStreamsId = getCurStreamsId(data);
+  const onStreamsId = curStreamsId.filter((id) => !prevStreamsId.includes(id));
+  prevStreamsId = curStreamsId;
+
+  return onStreamsId;
+};
+
+const sendPushNotification = async (onStreams: String[]) => {
   // TODO: send push notification logic
 };
 
 const job = async () => {
   const liveStreamsData = await getLiveStreams();
-  const streamsName = await getStreamsName(liveStreamsData);
-  // TODO: 방송켠 사람 목록
-  // prev cur 이용해서 prev에 없고 cur에만 있는 사람 알림쏘고 prev = curㅎ ㅏ기
-  console.log(streamsName)
+  const onStreams = getOnStreams(liveStreamsData);
 };
 
 export default () => {
-  schedule.scheduleJob("*/10 * * * * *", async () => await job());
+  schedule.scheduleJob("*/5 * * * * *", async () => {
+    await job();
+  });
 };
