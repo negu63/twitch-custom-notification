@@ -41,6 +41,9 @@ const sendPushNotification = async (onStreams: String[]) => {
 const job = async () => {
   const liveStreamsData = await getLiveStreams();
   const onStreamsId = getOnStreamsId(liveStreamsData);
+
+  if (!onStreamsId.length) return;
+
 };
 
 export default () => {
