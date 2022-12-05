@@ -1,7 +1,8 @@
-import { getCurrentTime } from "./../utils/getCurrentTime";
 import fetch from "node-fetch";
 import schedule from "node-schedule";
+import { Stream } from "../types/stream";
 import { STREAMS_URL } from "../constants/stream";
+import { getCurrentTime } from "./../utils/getCurrentTime";
 
 let prevStreamsId: String[] = [];
 
@@ -21,11 +22,11 @@ const getLiveStreams = async () => {
   return data.data;
 };
 
-const getCurStreamsId = (data: any[]): String[] => {
+const getCurStreamsId = (data: Stream[]): String[] => {
   return data.map((stream) => stream.user_login);
 };
 
-const getOnStreamsId = (data: any[]) => {
+const getOnStreamsId = (data: Stream[]) => {
   const curStreamsId = getCurStreamsId(data);
   const onStreamsId = curStreamsId.filter((id) => !prevStreamsId.includes(id));
   prevStreamsId = curStreamsId;
@@ -34,7 +35,7 @@ const getOnStreamsId = (data: any[]) => {
   return onStreamsId;
 };
 
-const getOnStreams = (data: any[], onStreamsId: String[]) => {
+const getOnStreams = (data: Stream[], onStreamsId: String[]) => {
   return data.filter((stream) => onStreamsId.includes(stream.user_login));
 };
   // TODO: send push notification logic
