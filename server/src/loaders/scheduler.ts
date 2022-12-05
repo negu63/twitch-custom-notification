@@ -25,10 +25,11 @@ const getCurStreamsId = (data: any[]): String[] => {
   return data.map((stream) => stream.user_login);
 };
 
-const getOnStreams = (data: any[]) => {
+const getOnStreamsId = (data: any[]) => {
   const curStreamsId = getCurStreamsId(data);
   const onStreamsId = curStreamsId.filter((id) => !prevStreamsId.includes(id));
   prevStreamsId = curStreamsId;
+  onStreamsId.length && console.info(`🟢 <${onStreamsId.join(", ")}> Bang On`);
 
   return onStreamsId;
 };
@@ -39,7 +40,7 @@ const sendPushNotification = async (onStreams: String[]) => {
 
 const job = async () => {
   const liveStreamsData = await getLiveStreams();
-  const onStreams = getOnStreams(liveStreamsData);
+  const onStreamsId = getOnStreamsId(liveStreamsData);
 };
 
 export default () => {
