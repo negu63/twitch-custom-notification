@@ -62,7 +62,7 @@ const generateMessage = (stream: Stream): TopicMessage => {
 };
 
 const sendTopicPushNotification = async (message: TopicMessage) => {
-  admin
+  return admin
     .messaging(app)
     .send(message, isDryRun)
     .then((res) => console.log(res))
@@ -77,7 +77,9 @@ const job = async () => {
 
   const onStreams = getOnStreams(liveStreamsData, onStreamsId);
   const messages = onStreams.map((stream) => generateMessage(stream));
-  messages.forEach((message) => sendTopicPushNotification(message));
+  await Promise.allSettled(
+    messages.map((message) => sendTopicPushNotification(message))
+  );
 };
 
 export default () => {
