@@ -21,7 +21,7 @@ export default (app: Router) => {
     const token: string | string[] = req.body.token;
     const topics: string[] = req.body.topics;
     await unsubscribeAllTopic(token);
-    await Promise.all(
+    await Promise.allSettled(
       topics.map((topic: string) => subscribeTopic(token, topic))
     );
 
@@ -32,7 +32,7 @@ export default (app: Router) => {
 };
 
 const unsubscribeAllTopic = async (token: string | string[]) => {
-  await Promise.all(
+  await Promise.allSettled(
     STREAMER_LIST.map((topic) =>
       admin.messaging().unsubscribeFromTopic(token, topic)
     )
@@ -40,7 +40,7 @@ const unsubscribeAllTopic = async (token: string | string[]) => {
 };
 
 const subscribeTopic = (token: string | string[], topic: string) => {
-  admin
+  return admin
     .messaging()
     .subscribeToTopic(token, topic)
     .then((res) => console.log("success to sub", res))
