@@ -1,7 +1,7 @@
 {
-  "name": "bangonan-server",
+  "name": "twitch-custom-notification-server",
   "version": "0.0.1",
-  "description": "Server of bangonan",
+  "description": "Server of twitch-custom-notification",
   "main": "src/app.ts",
   "license": "MIT",
   "scripts": {

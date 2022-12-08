@@ -48,7 +48,7 @@ const generateMessage = (stream: Stream): TopicMessage => {
   return {
     webpush: {
       notification: {
-        title: `Bangonan`,
+        title: `twitch-custom-notification`,
         body: `${stream.user_name}님이 방송을 시작했습니다.`,
         // icon:
         // badge:
